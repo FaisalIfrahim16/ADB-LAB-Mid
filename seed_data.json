@@ -1,12 +1,13 @@
 [
-  {"route": "LHE->BKK", "airline": "Thai Airways", "departure_date": "2026-01-01T00:00:00", "interval_days": 15},
-  {"route": "LHE->JED", "airline": "Saudia", "departure_date": "2026-02-10T00:00:00", "interval_days": 15},
-  {"route": "KHI->DXB", "airline": "Emirates", "departure_date": "2025-12-20T00:00:00", "interval_days": 15},
-  {"route": "ISB->LHR", "airline": "British Airways", "departure_date": "2026-03-01T00:00:00", "interval_days": 30},
-  {"route": "LHE->KUL", "airline": "Malaysia Airlines", "departure_date": "2026-04-15T00:00:00", "interval_days": 15},
-  {"route": "KHI->IST", "airline": "Turkish Airlines", "departure_date": "2026-05-20T00:00:00", "interval_days": 15},
-  {"route": "LHE->DOH", "airline": "Qatar Airways", "departure_date": "2026-02-25T00:00:00", "interval_days": 7},
-  {"route": "KHI->BOM", "airline": "Air India", "departure_date": "2026-01-10T00:00:00", "interval_days": 15},
-  {"route": "ISB->DXB", "airline": "FlyDubai", "departure_date": "2026-03-15T00:00:00", "interval_days": 15},
-  {"route": "LHE->JFK", "airline": "PIA", "departure_date": "2026-06-01T00:00:00", "interval_days": 30}
+  {"flight_id": "F1", "route": "LHE->BKK", "airline": "Thai Airways", "departure_date": "2026-01-01T00:00:00", "interval_days": 15},
+  {"flight_id": "F2", "route": "LHE->JED", "airline": "Saudia", "departure_date": "2026-02-10T00:00:00", "interval_days": 15},
+  {"flight_id": "F3", "route": "KHI->DXB", "airline": "Emirates", "departure_date": "2025-12-20T00:00:00", "interval_days": 15},
+  {"flight_id": "F4", "route": "ISB->LHR", "airline": "British Airways", "departure_date": "2026-03-01T00:00:00", "interval_days": 30},
+  {"flight_id": "F5", "route": "LHE->KUL", "airline": "Malaysia Airlines", "departure_date": "2026-04-15T00:00:00", "interval_days": 15},
+  {"flight_id": "F6", "route": "KHI->IST", "airline": "Turkish Airlines", "departure_date": "2026-05-20T00:00:00", "interval_days": 15},
+  {"flight_id": "F7", "route": "LHE->DOH", "airline": "Qatar Airways", "departure_date": "2026-02-25T00:00:00", "interval_days": 7},
+  {"flight_id": "F8", "route": "KHI->BOM", "airline": "Air India", "departure_date": "2026-01-10T00:00:00", "interval_days": 15},
+  {"flight_id": "F9", "route": "ISB->DXB", "airline": "FlyDubai", "departure_date": "2026-03-15T00:00:00", "interval_days": 15},
+  {"flight_id": "F10", "route": "LHE->JFK", "airline": "PIA", "departure_date": "2026-06-01T00:00:00", "interval_days": 30}
 ]
+

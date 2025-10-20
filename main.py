@@ -1,6 +1,5 @@
 from fastapi import FastAPI, HTTPException
 from datetime import datetime
-from bson import ObjectId
 from database import flights_col, prices_col
 from models import FlightResponse, PriceHistoryResponse, SearchResult
 import math
@@ -15,10 +14,10 @@ def seed_data():
 
 @app.get("/api/flights", response_model=list[FlightResponse])
 def get_flights():
-    flights = list(flights_col.find({}, {"_id": 1, "route": 1, "airline": 1, "departure_date": 1}))
+    flights = list(flights_col.find({}, {"_id": 0, "flight_id": 1, "route": 1, "airline": 1, "departure_date": 1}))
     return [
         FlightResponse(
-            flight_id=str(f["_id"]),
+            flight_id=f["flight_id"],
             route=f["route"],
             airline=f["airline"],
             departure_date=f["departure_date"]
@@ -28,7 +27,7 @@ def get_flights():
 @app.get("/api/prices", response_model=PriceHistoryResponse)
 def get_prices(route: str):
     price_docs = list(prices_col.find({"route": route}, {"_id": 0, "date": 1, "price": 1, "airline": 1}))
-    if not price_docs:  
+    if not price_docs:
         raise HTTPException(status_code=404, detail="Route not found")
     airline = price_docs[0]["airline"]
     price_history = [{"date": p["date"], "price": p["price"]} for p in price_docs]
@@ -39,21 +38,15 @@ def hybrid_search(q: str, weight_text: float = 0.6, weight_recency: float = 0.3,
     text_matches = list(flights_col.find({"$text": {"$search": q}}, {"score": {"$meta": "textScore"}}))
     if not text_matches:
         raise HTTPException(status_code=404, detail="No flights matched your query")
-
     results = []
     now = datetime.now()
-
     for f in text_matches:
-        fid = str(f["_id"])
-        flight_id = f["_id"]
-
-        prices = list(prices_col.find({"flight_id": flight_id}).sort("date", 1))
+        fid = f["flight_id"]
+        prices = list(prices_col.find({"flight_id": fid}).sort("date", 1))
         if not prices:
             continue
-
         last_date = prices[-1]["date"]
         recency = 1 / (1 + (now - last_date).days)
-
         price_values = [p["price"] for p in prices]
         if len(price_values) > 1:
             avg_price = sum(price_values) / len(price_values)
@@ -61,19 +54,16 @@ def hybrid_search(q: str, weight_text: float = 0.6, weight_recency: float = 0.3,
             stability = 1 / (1 + math.sqrt(variance))
         else:
             stability = 0.5
-
         score = (
-            weight_text * f["score"] +
+            weight_text * f.get("score", 0) +
             weight_recency * recency +
             weight_stability * stability
         )
-
         results.append({
             "flight_id": fid,
             "route": f["route"],
             "airline": f["airline"],
             "score": round(score, 3)
         })
-
     results.sort(key=lambda x: x["score"], reverse=True)
     return results

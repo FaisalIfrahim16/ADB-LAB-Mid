@@ -10,8 +10,7 @@ flights_col.delete_many({})
 prices_col.delete_many({})
 
 for flight in flights:
-    result = flights_col.insert_one(flight)
-    flight_id = result.inserted_id
+    flights_col.insert_one(flight)
 
     dep_date = datetime.fromisoformat(flight["departure_date"])
     interval = flight["interval_days"]
@@ -21,7 +20,7 @@ for flight in flights:
     while current_date < dep_date:
         price += random.randint(-20, 30)
         prices_col.insert_one({
-            "flight_id": flight_id,
+            "flight_id": flight["flight_id"],
             "route": flight["route"],
             "airline": flight["airline"],
             "date": current_date,
@@ -29,7 +28,5 @@ for flight in flights:
         })
         current_date += timedelta(days=interval)
 
-
 flights_col.create_index([("route", "text"), ("airline", "text")])
-
-print(" flightDB.flightRecord seeded successfully with sample flight and price data!")
+print("flightDB.flightRecord seeded successfully with sample flight and price data!")
